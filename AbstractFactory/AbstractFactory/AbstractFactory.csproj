@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimalWorld.cs" />
+    <Compile Include="Carnivores.cs" />
+    <Compile Include="Continents.cs" />
+    <Compile Include="Herbivores.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
