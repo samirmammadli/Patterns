@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 namespace FactoryMethod
 {
-
     class Program
     {
         static byte[] GetRandomColor(Random rnd)
