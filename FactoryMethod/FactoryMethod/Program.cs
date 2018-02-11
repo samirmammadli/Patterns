@@ -15,9 +15,7 @@ namespace FactoryMethod
         {
             Random rnd = new Random();
 
-            var tetris = new Tetris();
-
-            tetris.Creator = new IFigureCreator();
+            var tetris = new Tetris{ Creator = new IFigureCreator() };
             tetris.AddFigure(1, 23, 4);
 
             tetris.Creator = new JFigureCreator();
