@@ -19,8 +19,8 @@ namespace FactoryMethod
         }
         public void AddFigure(byte R, byte G, byte B)
         {
-            if (Creator != null)
-                Figures.Add(Creator.GetFigure(R, G, B));
+            if (Creator == null) throw new ArgumentNullException();
+            Figures.Add(Creator.GetFigure(R, G, B));
         }
 
         public void AddFigure(byte[] color)
