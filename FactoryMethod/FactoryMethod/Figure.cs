@@ -3,7 +3,7 @@
 namespace FactoryMethod
 {
     abstract class Figure
-    { 
+    {
         public string Type { get; protected set; }
         public byte[,] FigGeometry { get; protected set; }
         public byte[] Color { get; protected set; }
@@ -21,7 +21,7 @@ namespace FactoryMethod
             {
                 for (int j = 0; j < FigGeometry.GetLength(1); j++)
                 {
-                    output.Append(FigGeometry[i,j]);
+                    output.Append(FigGeometry[i, j]);
                 }
                 if (i == FigGeometry.GetLength(0) - 1)
                     break;

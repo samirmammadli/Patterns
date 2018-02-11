@@ -19,7 +19,7 @@ namespace FactoryMethod
         }
         public void AddFigure(byte R, byte G, byte B)
         {
-            if (Creator == null) throw new ArgumentNullException();
+            if (Creator == null) throw new ArgumentException("Creator can not be null or empty!");
             Figures.Add(Creator.GetFigure(R, G, B));
         }
 
