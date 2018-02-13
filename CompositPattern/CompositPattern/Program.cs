@@ -12,7 +12,7 @@ namespace CompositPattern
             folder.Add(Environment.CurrentDirectory);
             folder.Display(0);
             Console.WriteLine("\n\n\n");
-            folder.Add(@"G:\a");
+            folder.Add(@"F:\Backup");
             folder.Display(0);
         }
     }

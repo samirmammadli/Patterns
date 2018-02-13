@@ -19,8 +19,6 @@ namespace CompositPattern
         public MyFolder(string path)
         {
             Directory = new DirectoryInfo(path);
-            if (!Directory.Exists)
-                throw new ArgumentException("Folder is not exist!");
             Scan(path);
         }
 
