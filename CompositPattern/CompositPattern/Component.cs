@@ -26,8 +26,7 @@ namespace CompositPattern
 
         private void Scan(string path)
         {
-            var dirInfo = new DirectoryInfo(path);
-            var directories = dirInfo.GetDirectories();
+            var directories = Directory.GetDirectories();
             if (directories != null)
             {
                 foreach (var item in directories)
@@ -35,7 +34,7 @@ namespace CompositPattern
                     Child.Add(new MyFolder(item.FullName));
                 }
             }
-            var files = dirInfo.GetFiles();
+            var files = Directory.GetFiles();
             if (files != null)
                 foreach (var file in files)
                 {
