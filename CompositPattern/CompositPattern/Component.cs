@@ -6,13 +6,6 @@ namespace CompositPattern
 {
     abstract class Component
     {
-        protected string Path;
-
-        // Constructor
-        public Component(string path)
-        {
-            Path = path;
-        }
         public virtual void Add(string path) { Console.WriteLine("Cannot add to the file!"); }
         public abstract void Display(int depth);
     }
@@ -23,10 +16,12 @@ namespace CompositPattern
         private DirectoryInfo Directory { get; set; }
         private long FolderSize { get; set; } = 0;
 
-        public MyFolder(string path) : base(path)
+        public MyFolder(string path)
         {
-            Scan(path);
             Directory = new DirectoryInfo(path);
+            if (!Directory.Exists)
+                throw new ArgumentException("Folder is not exist!");
+            Scan(path);
         }
 
         private void Scan(string path)
@@ -69,7 +64,7 @@ namespace CompositPattern
     class MyFile : Component
     {
         private FileInfo File { get; set; }
-        public MyFile(string path) : base(path)
+        public MyFile(string path)
         {
             if (!System.IO.File.Exists(path))
                 throw new ArgumentException("File not found!");
