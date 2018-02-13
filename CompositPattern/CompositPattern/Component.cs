@@ -8,13 +8,14 @@ namespace CompositPattern
     {
         public virtual void Add(string path) { Console.WriteLine("Cannot add to the file!"); }
         public abstract void Display(int depth);
+        public double FolderSize { get; protected set; } = 0;
     }
 
     class MyFolder : Component
     {
         private List<Component> Child { get; set; } = new List<Component>();
         private DirectoryInfo Directory { get; set; }
-        private long FolderSize { get; set; } = 0;
+        
 
         public MyFolder(string path)
         {
@@ -39,6 +40,11 @@ namespace CompositPattern
                     Child.Add(new MyFile(file.FullName));
                     FolderSize += file.Length;
                 }
+
+            foreach (var item in Child)
+            {
+                FolderSize += item.FolderSize;
+            }
         }
         public override void Add(string path)
         {

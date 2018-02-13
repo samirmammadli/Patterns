@@ -9,11 +9,11 @@ namespace CompositPattern
         static void Main(string[] args)
         {
             Component folder = new MyFolder(@"G:\a");
-            folder.Add(Environment.CurrentDirectory);
+            //folder.Add(Environment.CurrentDirectory);
             folder.Display(0);
-            Console.WriteLine("\n\n\n");
-            folder.Add(@"F:\Backup");
-            folder.Display(0);
+            //Console.WriteLine("\n\n\n");
+            //folder.Add(@"G:\GBC");
+            //folder.Display(0);
         }
     }
 }
