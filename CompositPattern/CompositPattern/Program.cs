@@ -17,8 +17,6 @@ namespace CompositPattern
             Path = path;
         }
         public virtual void Add(string path) { Console.WriteLine("Cannot add to the file!"); }
-        public virtual void Add(Component c) { Console.WriteLine("Cannot add to the file!"); }
-        public virtual void Remove(Component c) { Console.WriteLine("Cannot delete from the file!"); }
         public abstract void Display(int depth);
     }
 
@@ -26,6 +24,7 @@ namespace CompositPattern
     {
         private List<Component> Child { get; set; } = new List<Component>();
         private DirectoryInfo Directory { get; set; }
+        private long FolderSize { get; set; } = 0;
 
         public MyFolder(string path) : base(path)
         {
@@ -49,32 +48,24 @@ namespace CompositPattern
                 foreach (var file in files)
                 {
                     Child.Add(new MyFile(file.FullName));
+                    FolderSize += file.Length;
                 }
         }
-
-        public override void Add(Component c)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Add(string path)
         {
-            base.Add(path);
+            Child = new List<Component>();
+            Directory = new DirectoryInfo(path);
+            FolderSize = 0;
+            Scan(path);
         }
-
         public override void Display(int depth)
         {
-            Console.WriteLine(new String(' ', depth) + $"<{Directory.Name}>");
+            Console.WriteLine(new String('.', depth) + $"<{Directory.Name}>   Total size: {SizeCalculating.Calculate(FolderSize)}");
             foreach (var item in Child)
             {
                 item.Display(depth + 1);
             }
-            Console.WriteLine(new String(' ', depth) + $@"</{Directory.Name}>");
-        }
-
-        public override void Remove(Component c)
-        {
-            throw new NotImplementedException();
+            Console.WriteLine(new String('.', depth) + $@"</{Directory.Name}>");
         }
     }
 
@@ -112,7 +103,8 @@ namespace CompositPattern
     {
         static void Main(string[] args)
         {
-            Component folder = new MyFolder(Environment.CurrentDirectory);
+            Component folder = new MyFolder(@"G:\a");
+            folder.Add(Environment.CurrentDirectory);
             folder.Display(0);
         }
     }
