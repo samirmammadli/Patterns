@@ -112,7 +112,7 @@ namespace CompositPattern
     {
         static void Main(string[] args)
         {
-            Component folder = new MyFolder(@"C:\CMS");
+            Component folder = new MyFolder(Environment.CurrentDirectory);
             folder.Display(0);
         }
     }
