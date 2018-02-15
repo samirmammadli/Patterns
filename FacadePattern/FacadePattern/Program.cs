@@ -9,7 +9,7 @@ namespace FacadePattern
 {
     class Sensor
     {
-        private Random rnd = new Random();
+        static private Random rnd = new Random();
         private int _succRate;
         public int SuccessRate
         {
@@ -39,29 +39,41 @@ namespace FacadePattern
         public void CheckTemperature()
         {
             if (sensor.Check())
-                Console.WriteLine(this +  " temperature check: Temperature is normal.");
+                Console.WriteLine($"{this} temperature check: Temperature is normal.");
             else
-                throw new ArgumentException(this + " Temperature is too High of Low!");
-        }
-    }
-
-    class GraphicCard : Device
-    { 
-        public GraphicCard(int successRate) : base(successRate) { }
-        public void Run()
-        {
-            Console.WriteLine("Graphic Card running...");
+                throw new ArgumentException($"{this} Temperature is too High of Low!");
         }
         public void CheckVoltage()
         {
             if (sensor.Check())
-                Console.WriteLine("Graphic Card voltage check: Voltage is normal.");
+                Console.WriteLine($"{this} voltage check: Voltage is normal.");
             else
-                throw new ArgumentException("Graphic Card voltage is incorrect!");
+                throw new ArgumentException($"{this} voltage is incorrect!");
         }
+        public void Run()
+        {
+            Console.WriteLine($"{this} running...");
+        }
+
+        public void Stop()
+        {
+            Console.WriteLine($"{this} stopped.");
+        }
+    }
+
+    class GraphicCard : Device
+    {
+        public GraphicCard(int successRate) : base(successRate) { }
         public override string ToString()
         {
             return "Graphic Card";
+        }
+        public void CheckMonitorConnection()
+        {
+            if (sensor.Check())
+                Console.WriteLine($"{this}: Monitor connected.");
+            else
+                throw new ArgumentException($"{this}: Monitor not found!");
         }
     }
 
@@ -72,32 +84,212 @@ namespace FacadePattern
         {
             return "RAM";
         }
+
+        public void MemoryCheck()
+        {
+            if (sensor.Check())
+                Console.WriteLine($"{this}: Memory check OK.");
+            else
+                throw new ArgumentException($"{this}: Memory damaged!");
+        }
+        public void ClearMemory()
+        {
+            Console.WriteLine($"{this}: Memory Cleared.");
+        }
     }
 
-    class HardDrive 
+    class HardDrive : Device
     {
-
+        public HardDrive(int successRate) : base(successRate) { }
+        public override string ToString()
+        {
+            return "Hard Drive";
+        }
+        public void CheckBootLoader()
+        {
+            if (sensor.Check())
+                Console.WriteLine($"{this}: BootLoader OK.");
+            else
+                throw new ArgumentException($"{this}: Failed start system, BootLoader damaged!");
+        }
     }
 
-    class ROM 
+    class ROM : Device
     {
-
+        public ROM(int successRate) : base(successRate) { }
+        public override string ToString()
+        {
+            return "ROM";
+        }
+        
     }
 
-    class PowerSupply
+    class PowerSupply : Device
     {
+        public bool OnOff { get; set; }
+        public PowerSupply(int successRate) : base(successRate) { }
+        public override string ToString()
+        {
+            return "Power Supply";
+        }
+        public void PowerGraphicCard()
+        {
+            if (OnOff)
+                Console.WriteLine("Power Supply: Graphic Card Powered.");
+            else
+                Console.WriteLine("Power Supply: Graphic Card power stopped.");
+        }
 
+        public void PowerRom()
+        {
+            if (OnOff)
+                Console.WriteLine("Power Supply: ROM Powered.");
+            else
+                Console.WriteLine("Power Supply: ROM power stopped.");
+        }
+
+        public void PowerHDD()
+        {
+            if (OnOff)
+                Console.WriteLine("Power Supply: HDD Powered.");
+            else
+                Console.WriteLine("Power Supply: HDD power stopped.");
+        }
+
+        public void PowerRAM()
+        {
+            if (OnOff)
+                Console.WriteLine("Power Supply: RAM Powered.");
+            else
+                Console.WriteLine("Power Supply: RAM power stopped.");
+        }
+    }
+
+    class Computer
+    {
+        public int SuccessRate;
+        private bool IsTurnedOn { get; set; }
+        private PowerSupply PowerSup { get; set; }
+        private GraphicCard Card { get; set; }
+        private RAM Ram { get; set; }
+        private ROM Rom { get; set; }
+        private HardDrive HDD { get; set; }
+        public Computer(int successRate)
+        {
+            IsTurnedOn = false;
+            SuccessRate = successRate;
+            PowerSup = new PowerSupply(successRate);
+            Card = new GraphicCard(successRate);
+            Ram = new RAM(successRate);
+            Rom = new ROM(successRate);
+            HDD = new HardDrive(successRate);
+            
+        }
+
+        public void PowerOn()
+        {
+            if (IsTurnedOn)
+                throw new ArgumentException("Computer is alrady running!");
+            PowerSup.OnOff = true;
+            PowerSup.Run();
+            CheckAllDevicesVoltage();
+            PowerSup.CheckTemperature();
+            Card.CheckTemperature();
+            PowerSup.PowerGraphicCard();
+            Card.Run();
+            Card.CheckMonitorConnection();
+            Ram.CheckTemperature();
+            PowerSup.PowerRAM();
+            Ram.Run();
+            Ram.MemoryCheck();
+            PowerSup.PowerRom();
+            Rom.Run();
+            PowerSup.PowerHDD();
+            HDD.Run();
+            HDD.CheckBootLoader();
+            CheckAllDevicesTempirature();
+            Console.WriteLine("\n[+]SUCCESS[+]  COMPUTER STARTS");
+            IsTurnedOn = true;
+        }
+
+        public void PowerOff()
+        {
+            if (!IsTurnedOn)
+                throw new ArgumentException("Computer is alrady turned off!");
+            PowerSup.OnOff = false;
+            HDD.Stop();
+            Ram.ClearMemory();
+            Card.Stop();
+            Rom.Stop();
+            PowerSup.PowerGraphicCard();
+            PowerSup.PowerRAM();
+            PowerSup.PowerRom();
+            PowerSup.PowerHDD();
+            CheckAllDevicesVoltage();
+            PowerSup.Stop();
+            Console.WriteLine("\n[+]SUCCESS[+]  COMPUTER OFF");
+        }
+
+        private void CheckAllDevicesVoltage()
+        {
+            try
+            {
+                PowerSup.CheckVoltage();
+                Card.CheckVoltage();
+                Ram.CheckVoltage();
+                Rom.CheckVoltage();
+                HDD.CheckVoltage();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        private void CheckAllDevicesTempirature()
+        {
+            try
+            {
+                PowerSup.CheckTemperature();
+                Card.CheckTemperature();
+                Ram.CheckTemperature();
+                Rom.CheckTemperature();
+                HDD.CheckTemperature();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 
     class Program
     {
         static void Main(string[] args)
         {
-            var card = new GraphicCard(100);
-            card.CheckTemperature();
+            var comp = new Computer(98);
+            try
+            {
+                comp.PowerOn();
+            }
+            catch (Exception e)
+            {
 
-            var ram = new RAM(100);
-            ram.CheckTemperature();
+                Console.WriteLine("\n[-]ERROR[-]: "+e.Message); ;
+            }
+            Console.WriteLine("\n");
+
+            try
+            {
+                comp.PowerOff();
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine("\n[-]ERROR[-]: " + e.Message);
+            }
+
         }
     }
 }
