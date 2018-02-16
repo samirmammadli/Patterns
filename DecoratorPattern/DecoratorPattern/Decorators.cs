@@ -18,6 +18,4 @@ namespace DecoratorPattern
         public override int Speed { get => Elf.Speed + _speed; protected set => _speed = value; }
         public override int HP { get => Elf.HP + _hp; protected set => _hp = value; }
     }
-
-
 }

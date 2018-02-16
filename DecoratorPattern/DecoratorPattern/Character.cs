@@ -4,11 +4,11 @@ namespace DecoratorPattern
 {
     abstract class Character
     {
+        public string ClassName { get; protected set; }
         protected int _damage { get; set; }
         protected int _defence { get; set; }
         protected int _speed { get; set; }
         protected int _hp { get; set; }
-        public string ClassName { get; protected set; }
 
         virtual public int Damage { get => _damage; protected set => _damage = value; }
         virtual public int Defence { get => _defence; protected set => _defence = value; }

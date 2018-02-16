@@ -21,6 +21,20 @@ namespace DecoratorPattern
 
             chel = new KnightHuman(chel);
             chel.PrintCharasteristics();
+
+            //Elfs Professions
+
+            Elfs elf = new Elf();
+            elf.PrintCharasteristics();
+            Console.WriteLine();
+
+            elf = new WizardElf(elf);
+            elf.PrintCharasteristics();
+            Console.WriteLine();
+
+            elf = new DarkWizardElf(elf);
+            elf.PrintCharasteristics();
+            Console.WriteLine();
         }
     }
 }
