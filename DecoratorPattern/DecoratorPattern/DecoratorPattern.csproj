@@ -42,6 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Character.cs" />
+    <Compile Include="Decorators.cs" />
+    <Compile Include="Elfs.cs" />
+    <Compile Include="ElfsDecorators.cs" />
+    <Compile Include="Humans.cs" />
+    <Compile Include="HumansDecorators.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
