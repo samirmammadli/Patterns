@@ -1,15 +1,15 @@
 ﻿
 namespace DecoratorPattern
 {
-    abstract class Humans : Character
+    abstract class HUMANS : Character
     {
-        public Humans()
+        public HUMANS()
         {
             ClassName = "Human";
         }
     }
 
-    class Human : Humans
+    class Human : HUMANS
     {
         public Human()
         {

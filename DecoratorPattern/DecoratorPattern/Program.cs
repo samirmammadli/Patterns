@@ -7,24 +7,24 @@ namespace DecoratorPattern
         static void Main(string[] args)
         {
             //Human Professions
-            Humans chel = new Human();
-            chel.PrintCharasteristics();
+            HUMANS human = new Human();
+            human.PrintCharasteristics();
             Console.WriteLine();
 
-            chel = new WarriorHuman(chel);
-            chel.PrintCharasteristics();
+            human = new WarriorHuman(human);
+            human.PrintCharasteristics();
             Console.WriteLine();
 
-            chel = new SwordbearerHuman(chel);
-            chel.PrintCharasteristics();
+            human = new SwordbearerHuman(human);
+            human.PrintCharasteristics();
             Console.WriteLine();
 
-            chel = new KnightHuman(chel);
-            chel.PrintCharasteristics();
+            human = new KnightHuman(human);
+            human.PrintCharasteristics();
 
             //Elfs Professions
 
-            Elfs elf = new Elf();
+            ELFS elf = new Elf();
             elf.PrintCharasteristics();
             Console.WriteLine();
 

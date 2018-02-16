@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace DecoratorPattern
 {
-    abstract class Elfs : Character
+    abstract class ELFS : Character
     {
-        public Elfs()
+        public ELFS()
         {
             ClassName = "Elf";
         }
     }
 
-    class Elf : Elfs
+    class Elf : ELFS
     {
         public Elf()
         {

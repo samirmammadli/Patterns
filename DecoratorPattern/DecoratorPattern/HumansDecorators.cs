@@ -4,7 +4,7 @@ namespace DecoratorPattern
 {
     class WarriorHuman : HumanProfessions
     {
-        public WarriorHuman(Humans human)
+        public WarriorHuman(HUMANS human)
         {
             if (!(human is Human))
                 throw new ArgumentException("Only Human can become a Warrior!");
@@ -22,7 +22,7 @@ namespace DecoratorPattern
 
     class SwordbearerHuman : HumanProfessions
     {
-        public SwordbearerHuman(Humans human)
+        public SwordbearerHuman(HUMANS human)
         {
             if (!(human is WarriorHuman))
                 throw new ArgumentException("Only Warrior can become a Sword-Bearer!");
@@ -41,7 +41,7 @@ namespace DecoratorPattern
 
     class ArcherHuman : HumanProfessions
     {
-        public ArcherHuman(Humans human)
+        public ArcherHuman(HUMANS human)
         {
             if (!(human is WarriorHuman))
                 throw new ArgumentException("Only Warrior can become an Archer!");
@@ -60,7 +60,7 @@ namespace DecoratorPattern
 
     class KnightHuman : HumanProfessions
     {
-        public KnightHuman(Humans human)
+        public KnightHuman(HUMANS human)
         {
             if (!(human is SwordbearerHuman))
                 throw new ArgumentException("Only Sword-bearer can become a Knight!");

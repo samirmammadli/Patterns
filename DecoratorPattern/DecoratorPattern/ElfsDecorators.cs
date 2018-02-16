@@ -8,7 +8,7 @@ namespace DecoratorPattern
 {
     class WarriorElf : ElfsProfessions
     {
-        public WarriorElf(Elfs elf)
+        public WarriorElf(ELFS elf)
         {
             if (!(elf is Elf))
                 throw new ArgumentException("Only Elf can become a Warrior!");
@@ -26,7 +26,7 @@ namespace DecoratorPattern
 
     class WizardElf : ElfsProfessions
     {
-        public WizardElf(Elfs elf)
+        public WizardElf(ELFS elf)
         {
             if (!(elf is Elf))
                 throw new ArgumentException("Only Elf can become a Wizard!");
@@ -44,7 +44,7 @@ namespace DecoratorPattern
 
     class ArbalesterElf : ElfsProfessions
     {
-        public ArbalesterElf(Elfs elf)
+        public ArbalesterElf(ELFS elf)
         {
             if (!(elf is WarriorElf))
                 throw new ArgumentException("Only Warrior can become an Arbalester!");
@@ -62,7 +62,7 @@ namespace DecoratorPattern
 
     class DarkWizardElf : ElfsProfessions
     {
-        public DarkWizardElf(Elfs elf)
+        public DarkWizardElf(ELFS elf)
         {
             if (!(elf is WizardElf))
                 throw new ArgumentException("Only Wizard can become a Dark Wizard!");
@@ -80,7 +80,7 @@ namespace DecoratorPattern
 
     class WhiteWizardElf : ElfsProfessions
     {
-        public WhiteWizardElf(Elfs elf)
+        public WhiteWizardElf(ELFS elf)
         {
             if (!(elf is WizardElf))
                 throw new ArgumentException("Only Wizard can become a White Wizard!");
