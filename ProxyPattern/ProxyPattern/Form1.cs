@@ -10,11 +10,11 @@ namespace ProxyPattern
 {
     public partial class Form1 : Form
     {
-        private EnRuApiTranslator translator;
+        private TranslatorProxy translator;
         public Form1()
         {
             InitializeComponent();
-            translator = EnRuApiTranslator.GetInstance();
+            translator = new TranslatorProxy();
         }
 
         private void btnTranslate_Click(object sender, System.EventArgs e)
@@ -30,6 +30,15 @@ namespace ProxyPattern
 
                 throw;
             }
+        }
+
+        private void tbFrom_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                e.Handled = true;
+                btnTranslate_Click(this, e);
+            }      
         }
     }
 }

@@ -42,12 +42,14 @@
             this.tbFrom.Name = "tbFrom";
             this.tbFrom.Size = new System.Drawing.Size(210, 80);
             this.tbFrom.TabIndex = 0;
+            this.tbFrom.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbFrom_KeyPress);
             // 
             // tbTo
             // 
             this.tbTo.Location = new System.Drawing.Point(271, 25);
             this.tbTo.Multiline = true;
             this.tbTo.Name = "tbTo";
+            this.tbTo.ReadOnly = true;
             this.tbTo.Size = new System.Drawing.Size(210, 80);
             this.tbTo.TabIndex = 1;
             // 
