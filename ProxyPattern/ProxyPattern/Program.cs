@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 namespace ProxyPattern
 {
+
     static class Program
     {
         /// <summary>
