@@ -11,9 +11,9 @@ namespace DecoratorPattern
             human.PrintCharasteristics();
             Console.WriteLine();
 
-            human = new WarriorHuman(human);
-            human.PrintCharasteristics();
-            Console.WriteLine();
+            //human = new WarriorHuman(human);
+            //human.PrintCharasteristics();
+            //Console.WriteLine();
 
             human = new SwordbearerHuman(human);
             human.PrintCharasteristics();
