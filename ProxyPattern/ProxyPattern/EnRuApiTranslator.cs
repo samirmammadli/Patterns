@@ -18,7 +18,6 @@ namespace ProxyPattern
             words.Add("home", "Дом");
         }
 
-
         public string Translate(string text)
         {
             var word = text.ToLower();
@@ -34,7 +33,6 @@ namespace ProxyPattern
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }

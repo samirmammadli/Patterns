@@ -96,7 +96,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "En-Ru Translator";
             this.ResumeLayout(false);
             this.PerformLayout();
 

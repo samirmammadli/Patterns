@@ -25,10 +25,10 @@ namespace ProxyPattern
             {
                 tbTo.Text = translator.Translate(tbFrom.Text);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
 
-                throw;
+                MessageBox.Show(ex.Message);
             }
         }
 
