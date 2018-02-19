@@ -9,7 +9,6 @@ namespace Chain_of_Responsibility
     abstract class ExceptionHandler
     {
         protected ExceptionHandler nextHandler;
-        protected MyException Exception;
         abstract public void ErrorHandling(MyException ex);
         public ExceptionHandler(ExceptionHandler handler = null) { nextHandler = handler; }
     }
@@ -19,16 +18,30 @@ namespace Chain_of_Responsibility
         public NormalExceptionHandler(ExceptionHandler handler) : base(handler) { }
         public override void ErrorHandling(MyException ex)
         {
-            
+            Console.WriteLine("Console message: " + ex.Message);
+            if (ex.Type != ExceptionType.Normal && nextHandler != null)
+                nextHandler.ErrorHandling(ex);
+
         }
     }
 
     class CriticalExceptionHandler : ExceptionHandler
     {
-        public CriticalExceptionHandler(ExceptionHandler handler) : base(handler) { }
+        public CriticalExceptionHandler(ExceptionHandler handler = null) : base(handler) { }
         public override void ErrorHandling(MyException ex)
         {
+            if (ex.Type == ExceptionType.Normal) return;
+            Console.WriteLine("Write to file: " + ex.Message);
+            if(nextHandler != null) nextHandler.ErrorHandling(ex);
+        }
+    }
 
+    class FatalExceptionHandler : ExceptionHandler
+    {
+        public override void ErrorHandling(MyException ex)
+        {
+            if (ex.Type != ExceptionType.Fatal) return;
+            Console.WriteLine("Send mail to administrator: " + ex.Message);
         }
     }
 
@@ -45,6 +58,11 @@ namespace Chain_of_Responsibility
     {
         static void Main(string[] args)
         {
+            var fatal = new FatalExceptionHandler();
+            var critical = new CriticalExceptionHandler(fatal);
+            var normal = new NormalExceptionHandler(critical);
+
+            normal.ErrorHandling(new MyException("Salam", ExceptionType.Fatal));
         }
     }
 }
