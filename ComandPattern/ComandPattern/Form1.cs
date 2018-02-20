@@ -16,11 +16,11 @@ namespace ComandPattern
         public Form1()
         {
             field = new char[3, 3] {
-                { 'o', 'a', 'o' },
-                { 'a', 'o', 'x' },
-                { 'o', 'i', 'g' } };
+                { 'a', 'a', 'a' },
+                { ' ', ' ', ' ' },
+                { ' ', ' ', ' ' } };
             InitializeComponent();
-            Metod();
+            FindWinner();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -31,21 +31,18 @@ namespace ComandPattern
                 button1.Text = "O";
         }
 
-        private bool isMatch(List<char> list)
+        private bool IsFound(HashSet<char> list)
         {
-            if (list[0] == ' ') return false;
-            var a = list.Where(x => x == list[0]);
-
-            if (a.Count() == 3) { Console.WriteLine(a.First()); return true; }
+            if (list.Count == 1 && list.First() != ' ') return true;
             return false;
         }
 
-        private char Metod()
+        private char FindWinner()
         {
-            List<char> horizontal = new List<char>(3);
-            List<char> verticale = new List<char>(3);
-            List<char> diagonale1 = new List<char>(3);
-            List<char> diagonale2 = new List<char>(3);
+            var horizontal = new HashSet<char>();
+            var verticale = new HashSet<char>();
+            var diagonale1 = new HashSet<char>();
+            var diagonale2 = new HashSet<char>();
             for (int i = 0; i < field.GetLength(0); i++)
             {
                 horizontal.Clear();
@@ -55,13 +52,13 @@ namespace ComandPattern
                     horizontal.Add(field[i, j]);
                     verticale.Add(field[j, i]);
                 }
-                if (isMatch(horizontal)) return horizontal[0];
-                if (isMatch(verticale)) return verticale[0];
+                if (IsFound(horizontal)) return horizontal.First();
+                if (IsFound(verticale)) return verticale.First();
                 diagonale1.Add(field[i, i]);
                 diagonale2.Add(field[i, field.GetLength(0) - 1 - i]);
             }
-            if (isMatch(diagonale1)) return diagonale1[0];
-            if (isMatch(diagonale2)) return diagonale2[0];
+            if (IsFound(diagonale1)) return diagonale1.First();
+            if (IsFound(diagonale2)) return diagonale2.First();
             return ' ';
         }
     }
