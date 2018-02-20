@@ -15,10 +15,10 @@ namespace ComandPattern
         char[,] field;
         public Form1()
         {
-            field = new char[3,3] {
+            field = new char[3, 3] {
                 { 'o', 'a', 'o' },
                 { 'a', 'o', 'x' },
-                { 'o', 'i', 'o'} };
+                { 'o', 'i', 'g' } };
             InitializeComponent();
             Metod();
         }
@@ -31,39 +31,37 @@ namespace ComandPattern
                 button1.Text = "O";
         }
 
-        private char isMatch(List<char> list)
+        private bool isMatch(List<char> list)
         {
-            var a = list.GroupBy(x => x).OrderByDescending(x => x.Count()).FirstOrDefault();
-            if(a != null && a.Count() == 3)
-                Console.WriteLine(a.Key);
-            return ' ';
+            if (list[0] == ' ') return false;
+            var a = list.Where(x => x == list[0]);
+
+            if (a.Count() == 3) { Console.WriteLine(a.First()); return true; }
+            return false;
         }
 
         private char Metod()
         {
-            List<char> horizontal = new List<char>();
-            List<char> verticale = new List<char>();
-            List<char> diagonale1 = new List<char>();
-            List<char> diagonale2 = new List<char>();
+            List<char> horizontal = new List<char>(3);
+            List<char> verticale = new List<char>(3);
+            List<char> diagonale1 = new List<char>(3);
+            List<char> diagonale2 = new List<char>(3);
             for (int i = 0; i < field.GetLength(0); i++)
             {
                 horizontal.Clear();
                 verticale.Clear();
-                char result;
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
                     horizontal.Add(field[i, j]);
-                    if ((result = isMatch(horizontal)) != ' ') return result;
-
                     verticale.Add(field[j, i]);
-                    if ((result = isMatch(verticale)) != ' ') return result;
                 }
+                if (isMatch(horizontal)) return horizontal[0];
+                if (isMatch(verticale)) return verticale[0];
                 diagonale1.Add(field[i, i]);
-                if ((result = isMatch(diagonale1)) != ' ') return result;
-
                 diagonale2.Add(field[i, field.GetLength(0) - 1 - i]);
-                if ((result = isMatch(diagonale2)) != ' ') return result;
             }
+            if (isMatch(diagonale1)) return diagonale1[0];
+            if (isMatch(diagonale2)) return diagonale2[0];
             return ' ';
         }
     }
