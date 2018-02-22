@@ -31,12 +31,18 @@ namespace ComandPattern
             };
 
             Game.CellChanged += CellChanged;
+            Game.Winner += Winner;
         }
         private void MoveChanged()
         {
             CurrentMove = CurrentMove == NextMove.X ? NextMove.O : NextMove.X;
         }
 
+        private void Winner(string winner)
+        {
+            MessageBox.Show($"Player {winner} Wins!");
+            Application.Exit();
+        }
 
         private void CellChanged(int x, int y)
         {

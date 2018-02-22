@@ -78,6 +78,9 @@ namespace ComandPattern
     {
         public delegate void FieldCellStateHandler(int x, int y);
         public event FieldCellStateHandler CellChanged;
+
+        public delegate void GameEndsHandler(string winner);
+        public event GameEndsHandler Winner;
         private GameField Game;
         public TicTacToe()
         {
@@ -100,6 +103,9 @@ namespace ComandPattern
             if (x < 0 || x > 2 || y < 0 || y > 2) throw new ArgumentException("Given Parameters is Incorrect!");
             Game.Field[x, y] = move;
             CellChanged?.Invoke(x, y);
+            var result = FindWinner();
+            if (result != NextMove.Empty)
+                Winner?.Invoke(result.ToString());
         }
 
         private NextMove FindWinner()
