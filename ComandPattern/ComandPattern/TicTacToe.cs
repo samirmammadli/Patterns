@@ -82,6 +82,7 @@ namespace ComandPattern
 
         public delegate void GameEndsHandler(string winner);
         public event GameEndsHandler Winner;
+        public event GameEndsHandler RoundDraw;
 
         private GameField Game;
         public NextMove CurrentMove { get; set; }
@@ -109,6 +110,7 @@ namespace ComandPattern
             Game.Field[x, y] = Move;
             CellChanged?.Invoke(x, y);
             FindWinner();
+            ScanForRoundDraw();
             MoveChanged();
         }
 
@@ -122,6 +124,20 @@ namespace ComandPattern
             var result = ScanFieldForWinner();
             if (result != NextMove.Empty)
                 Winner?.Invoke(result.ToString());
+        }
+
+        private void ScanForRoundDraw()
+        {
+            bool isEmptyCellExist = false;
+            for (int i = 0; i < Game.Field.GetLength(0); i++)
+            {
+                for (int j = 0; j < Game.Field.GetLength(1); j++)
+                {
+                    if (Game.Field[i, j] == NextMove.Empty)
+                        isEmptyCellExist = true;
+                }
+            }
+            if (!isEmptyCellExist) RoundDraw?.Invoke("Nobody Wins");
         }
 
         private NextMove ScanFieldForWinner()

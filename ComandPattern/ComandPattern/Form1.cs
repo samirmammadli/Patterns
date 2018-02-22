@@ -30,12 +30,19 @@ namespace ComandPattern
 
             Game.CellChanged += CellChanged;
             Game.Winner += Winner;
+            Game.RoundDraw += RoundDraw;
         }
         
 
         private void Winner(string winner)
         {
             MessageBox.Show($"Player {winner} Wins!");
+            Application.Exit();
+        }
+
+        private void RoundDraw(string message)
+        {
+            MessageBox.Show($"Round draw: {message}");
             Application.Exit();
         }
 
