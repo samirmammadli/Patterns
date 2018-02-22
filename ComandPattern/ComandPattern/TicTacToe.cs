@@ -8,13 +8,43 @@ namespace ComandPattern
 {
     interface ICommand
     {
-        void Restore();
+        void Execute(int x, int y, NextMove move);
         void Undo();
+    }
+
+    struct Commands
+    {
+        int x;
+        int y;
+    }
+
+    class TicTacToeCommand : ICommand
+    {
+        private TicTacToe Game;
+        private Stack<int> X;
+        private Stack<int> Y;
+        public TicTacToeCommand(TicTacToe game)
+        {
+            Game = game;
+            X = new Stack<int>();
+            Y = new Stack<int>();
+        }
+        public void Execute(int x, int y, NextMove move)
+        {
+            X.Push(x);
+            Y.Push(y);
+            Game.SetMove(x, y, move);
+        }
+
+        public void Undo()
+        {
+            Game.SetMove(X.Pop(), Y.Pop(), NextMove.Empty);
+        }
     }
 
     enum NextMove
     {
-        Free,
+        Empty,
         X,
         O
     }
@@ -22,13 +52,13 @@ namespace ComandPattern
     class GameField
     {
         static private GameField Game;
-        public NextMove[,] field;
+        public NextMove[,] Field;
         private GameField()
         {
-            field = new NextMove[3, 3] {
-                { NextMove.Free, NextMove.Free, NextMove.Free },
-                { NextMove.Free, NextMove.Free, NextMove.Free },
-                { NextMove.Free, NextMove.Free, NextMove.Free } };
+            Field = new NextMove[3, 3] {
+                { NextMove.Empty, NextMove.Empty, NextMove.Empty },
+                { NextMove.Empty, NextMove.Empty, NextMove.Empty },
+                { NextMove.Empty, NextMove.Empty, NextMove.Empty } };
         }
         static public GameField GetInstance()
         {
@@ -41,25 +71,34 @@ namespace ComandPattern
         }
     }
 
+
+
+
     class TicTacToe
     {
+        public delegate void FieldCellStateHandler(int x, int y);
+        public event FieldCellStateHandler CellChanged;
         private GameField Game;
         public TicTacToe()
         {
-
             Game = GameField.GetInstance();
-
         }
         private bool IsFound(HashSet<NextMove> list)
         {
-            if (list.Count == 1 && list.First() != NextMove.Free) return true;
+            if (list.Count == 1 && list.First() != NextMove.Empty) return true;
             return false;
+        }
+
+        public NextMove GetCell(int x, int y)
+        {
+            if (x < 0 || x > 2 || y < 0 || y > 2) throw new ArgumentException("Given Parameters is Incorrect!");
+            return Game.Field[x, y];
         }
 
         public void SetMove(int x, int y, NextMove move)
         {
             if (x < 0 || x > 2 || y < 0 || y > 2) throw new ArgumentException("Given Parameters is Incorrect!");
-            Game.field[x, y] = move;
+            Game.Field[x, y] = move;
         }
 
         private NextMove FindWinner()
@@ -68,23 +107,23 @@ namespace ComandPattern
             var verticale = new HashSet<NextMove>();
             var diagonale1 = new HashSet<NextMove>();
             var diagonale2 = new HashSet<NextMove>();
-            for (int i = 0; i < Game.field.GetLength(0); i++)
+            for (int i = 0; i < Game.Field.GetLength(0); i++)
             {
                 horizontal.Clear();
                 verticale.Clear();
-                for (int j = 0; j < Game.field.GetLength(1); j++)
+                for (int j = 0; j < Game.Field.GetLength(1); j++)
                 {
-                    horizontal.Add(Game.field[i, j]);
-                    verticale.Add(Game.field[j, i]);
+                    horizontal.Add(Game.Field[i, j]);
+                    verticale.Add(Game.Field[j, i]);
                 }
                 if (IsFound(horizontal)) return horizontal.First();
                 if (IsFound(verticale)) return verticale.First();
-                diagonale1.Add(Game.field[i, i]);
-                diagonale2.Add(Game.field[i, Game.field.GetLength(0) - 1 - i]);
+                diagonale1.Add(Game.Field[i, i]);
+                diagonale2.Add(Game.Field[i, Game.Field.GetLength(0) - 1 - i]);
             }
             if (IsFound(diagonale1)) return diagonale1.First();
             if (IsFound(diagonale2)) return diagonale2.First();
-            return NextMove.Free;
+            return NextMove.Empty;
         }
     }
 }
