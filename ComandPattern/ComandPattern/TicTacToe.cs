@@ -99,6 +99,7 @@ namespace ComandPattern
         {
             if (x < 0 || x > 2 || y < 0 || y > 2) throw new ArgumentException("Given Parameters is Incorrect!");
             Game.Field[x, y] = move;
+            CellChanged?.Invoke(x, y);
         }
 
         private NextMove FindWinner()
