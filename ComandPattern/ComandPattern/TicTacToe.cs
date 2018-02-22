@@ -8,7 +8,7 @@ namespace ComandPattern
 {
     interface ICommand
     {
-        void Execute(int x, int y, NextMove move);
+        void Execute(int x, int y);
         void Undo();
     }
 
@@ -29,15 +29,16 @@ namespace ComandPattern
             X = new Stack<int>();
             Y = new Stack<int>();
         }
-        public void Execute(int x, int y, NextMove move)
+        public void Execute(int x, int y)
         {
             X.Push(x);
             Y.Push(y);
-            Game.SetMove(x, y, move);
+            Game.SetMove(x, y);
         }
 
         public void Undo()
         {
+            if (X.Count == 0) return;
             Game.SetMove(X.Pop(), Y.Pop(), NextMove.Empty);
         }
     }
@@ -81,10 +82,13 @@ namespace ComandPattern
 
         public delegate void GameEndsHandler(string winner);
         public event GameEndsHandler Winner;
+
         private GameField Game;
-        public TicTacToe()
+        public NextMove CurrentMove { get; set; }
+        public TicTacToe(NextMove current)
         {
             Game = GameField.GetInstance();
+            CurrentMove = current;
         }
         private bool IsFound(HashSet<NextMove> list)
         {
@@ -98,17 +102,29 @@ namespace ComandPattern
             return Game.Field[x, y];
         }
 
-        public void SetMove(int x, int y, NextMove move)
+        public void SetMove(int x, int y, NextMove? move = null)
         {
             if (x < 0 || x > 2 || y < 0 || y > 2) throw new ArgumentException("Given Parameters is Incorrect!");
-            Game.Field[x, y] = move;
+            var Move = move ?? CurrentMove;
+            Game.Field[x, y] = Move;
             CellChanged?.Invoke(x, y);
-            var result = FindWinner();
+            FindWinner();
+            MoveChanged();
+        }
+
+        private void MoveChanged()
+        {
+            CurrentMove = CurrentMove == NextMove.X ? NextMove.O : NextMove.X;
+        }
+
+        private void FindWinner()
+        {
+            var result = ScanFieldForWinner();
             if (result != NextMove.Empty)
                 Winner?.Invoke(result.ToString());
         }
 
-        private NextMove FindWinner()
+        private NextMove ScanFieldForWinner()
         {
             var horizontal = new HashSet<NextMove>();
             var verticale = new HashSet<NextMove>();

@@ -15,12 +15,10 @@ namespace ComandPattern
         private TicTacToe Game;
         private TicTacToeCommand command;
         private Button[,] buttons;
-        private NextMove CurrentMove;
         public Form1()
         {
-            Game = new TicTacToe();
+            Game = new TicTacToe(NextMove.X);
             command = new TicTacToeCommand(Game);
-            CurrentMove = NextMove.X;
             InitializeComponent();
 
             buttons = new Button[3, 3]
@@ -33,10 +31,7 @@ namespace ComandPattern
             Game.CellChanged += CellChanged;
             Game.Winner += Winner;
         }
-        private void MoveChanged()
-        {
-            CurrentMove = CurrentMove == NextMove.X ? NextMove.O : NextMove.X;
-        }
+        
 
         private void Winner(string winner)
         {
@@ -46,20 +41,28 @@ namespace ComandPattern
 
         private void CellChanged(int x, int y)
         {
-            string move;
+            string move = "";
+            Color fg = Color.Black;
             var cell = Game.GetCell(x, y);
-            if (cell == NextMove.Empty) move = "";
-            else
+            if(cell == NextMove.X)
+            {
                 move = cell.ToString();
+                fg = Color.Green;
+            }
+            else if(cell == NextMove.O)
+            {
+                move = cell.ToString();
+                fg = Color.Red;
+            }
 
             buttons[x, y].Text = move;
+            buttons[x, y].ForeColor = fg;
         }
 
         private void SetMove(int x, int y)
         {
             if (Game.GetCell(x, y) != NextMove.Empty) return;
-            command.Execute(x, y, CurrentMove);
-            MoveChanged();
+            command.Execute(x, y);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -105,6 +108,11 @@ namespace ComandPattern
         private void button9_Click(object sender, EventArgs e)
         {
             SetMove(2, 2);
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            command.Undo();
         }
     }
 }
