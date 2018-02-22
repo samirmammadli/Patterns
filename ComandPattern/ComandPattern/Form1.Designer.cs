@@ -39,6 +39,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.pnlField = new System.Windows.Forms.Panel();
+            this.btnBack = new System.Windows.Forms.Button();
             this.tlpButtons.SuspendLayout();
             this.pnlField.SuspendLayout();
             this.SuspendLayout();
@@ -175,11 +176,21 @@
             this.pnlField.Size = new System.Drawing.Size(499, 391);
             this.pnlField.TabIndex = 1;
             // 
+            // btnBack
+            // 
+            this.btnBack.Location = new System.Drawing.Point(15, 7);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(75, 23);
+            this.btnBack.TabIndex = 2;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(542, 466);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.pnlField);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -202,6 +213,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel pnlField;
+        private System.Windows.Forms.Button btnBack;
     }
 }
 
