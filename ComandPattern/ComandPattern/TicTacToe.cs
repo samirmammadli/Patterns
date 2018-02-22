@@ -6,74 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComandPattern
 {
-    interface ICommand
-    {
-        void Execute(int x, int y);
-        void Undo();
-    }
-
-    struct Commands
-    {
-        int x;
-        int y;
-    }
-
-    class TicTacToeCommand : ICommand
-    {
-        private TicTacToe Game;
-        private Stack<int> X;
-        private Stack<int> Y;
-        public TicTacToeCommand(TicTacToe game)
-        {
-            Game = game;
-            X = new Stack<int>();
-            Y = new Stack<int>();
-        }
-        public void Execute(int x, int y)
-        {
-            X.Push(x);
-            Y.Push(y);
-            Game.SetMove(x, y);
-        }
-
-        public void Undo()
-        {
-            if (X.Count == 0) return;
-            Game.SetMove(X.Pop(), Y.Pop(), NextMove.Empty);
-        }
-    }
-
-    enum NextMove
-    {
-        Empty,
-        X,
-        O
-    }
-
-    class GameField
-    {
-        static private GameField Game;
-        public NextMove[,] Field;
-        private GameField()
-        {
-            Field = new NextMove[3, 3] {
-                { NextMove.Empty, NextMove.Empty, NextMove.Empty },
-                { NextMove.Empty, NextMove.Empty, NextMove.Empty },
-                { NextMove.Empty, NextMove.Empty, NextMove.Empty } };
-        }
-        static public GameField GetInstance()
-        {
-            Game = Game ?? new GameField();
-            return Game;
-        }
-        public void ResetField()
-        {
-            Game = new GameField();
-        }
-    }
-
-
-
+    enum NextMove { Empty, X, O }
 
     class TicTacToe
     {
