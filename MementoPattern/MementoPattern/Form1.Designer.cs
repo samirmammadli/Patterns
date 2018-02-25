@@ -35,7 +35,7 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(12, 30);
+            this.richTextBox1.Location = new System.Drawing.Point(12, 41);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(260, 219);
             this.richTextBox1.TabIndex = 0;
@@ -43,7 +43,7 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(13, 1);
+            this.btnBack.Location = new System.Drawing.Point(12, 12);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
             this.btnBack.TabIndex = 1;
@@ -52,7 +52,7 @@
             // 
             // btnForward
             // 
-            this.btnForward.Location = new System.Drawing.Point(197, 1);
+            this.btnForward.Location = new System.Drawing.Point(197, 12);
             this.btnForward.Name = "btnForward";
             this.btnForward.Size = new System.Drawing.Size(75, 23);
             this.btnForward.TabIndex = 2;
@@ -63,10 +63,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(289, 261);
+            this.ClientSize = new System.Drawing.Size(289, 272);
             this.Controls.Add(this.btnForward);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.richTextBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
