@@ -17,37 +17,40 @@ namespace MementoPattern
         {
             InitializeComponent();
             history = new TextBoxHistory();
+            history.Add(new Memento(richTextBox1.Text));
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            history.Add(new Memento(richTextBox1.Text));
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
+            richTextBox1.TextChanged -= richTextBox1_TextChanged;
             try
             {
-                richTextBox1.Text = history.Back().Buffer;
+                richTextBox1.Text = history.Undo().Buffer;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                MessageBox.Show(ex.Message);
             }
+            finally { richTextBox1.TextChanged += richTextBox1_TextChanged; }
         }
 
         private void btnForward_Click(object sender, EventArgs e)
         {
+            richTextBox1.TextChanged -= richTextBox1_TextChanged;
             try
             {
-                richTextBox1.Text = history.Forward().Buffer;
+                richTextBox1.Text = history.Redo().Buffer;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                MessageBox.Show(ex.Message);
             }
+            finally { richTextBox1.TextChanged += richTextBox1_TextChanged; }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            history.Add(new Memento(richTextBox1.Text));
-        }
     }
 }

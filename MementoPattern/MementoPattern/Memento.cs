@@ -17,32 +17,36 @@ namespace MementoPattern
 
     class TextBoxHistory
     {
-        private Stack<Memento> History { get; set; }
-        private Stack<Memento> AfterCurrent { get; set; }
+        private List<Memento> Storage { get; set; }
+        private int currenIndex;
         public TextBoxHistory()
         {
-            History = new Stack<Memento>();
-            AfterCurrent = new Stack<Memento>();
+            Storage = new List<Memento>();
+            currenIndex = -1;
         }
-
         public void Add(Memento buffer)
         {
-            History.Push(buffer);
-            AfterCurrent.Clear();
+            if (currenIndex == Storage.Count - 1)
+                Storage.Add(buffer);
+            else
+            {
+                Storage.RemoveRange(currenIndex + 1, Storage.Count - currenIndex - 1);
+                Storage.Add(buffer);
+            }
+            currenIndex++;
         }
 
-        public Memento Back()
+        public Memento Undo()
         {
-            if (History.Count < 2) throw new ArgumentException("No Elements in buffer!");
-            AfterCurrent.Push(History.Pop());
-            return History.Peek();
+            if (currenIndex == 0) return Storage[currenIndex];
+            else
+                return Storage[--currenIndex];
         }
 
-        public Memento Forward()
+        public Memento Redo()
         {
-            if (AfterCurrent.Count < 1) throw new ArgumentException("No Elements in buffer!");
-            History.Push(History.Pop());
-            return History.Peek();
+            if (currenIndex == Storage.Count - 1) return Storage[currenIndex];
+            else return Storage[++currenIndex];
         }
     }
 }
