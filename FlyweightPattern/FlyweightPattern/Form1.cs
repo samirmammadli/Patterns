@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace FlyweightPattern
@@ -28,6 +29,7 @@ namespace FlyweightPattern
 
             pictureBox6.Image = images.GetImage((Pictures)rnd.Next(0, 3));
             label6.Text = $"HashCode: {pictureBox6.Image.GetHashCode()}";
+
         }
     }
 }
